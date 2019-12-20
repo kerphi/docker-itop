@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+
+  itop-app:
+    container_name: itop-app
+    image: supervisions/itop:2.6
+    links:
+      - itop-db:db
+    tty: true         # to have nice debug(...) outputs
+    stdin_open: true  # to be able to use CTRL+C to stop the debug
+    ports:
+      - 8080:80
+    restart: unless-stopped
+
+  itop-db:
+    container_name: itop-db
+    image: mysql:5
+    environment:
+      MYSQL_DATABASE: "itop"
+      MYSQL_USER: "itop"
+      MYSQL_PASSWORD: "itop"
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+    tty: true         # to have nice debug(...) outputs
+    stdin_open: true  # to be able to use CTRL+C to stop the debug
+    restart: unless-stopped
